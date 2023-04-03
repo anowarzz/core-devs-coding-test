@@ -13,7 +13,7 @@ export default function SubscriptionForm() {
       setAlertClass('alert-validate');
       return;
     }
-    fetch('http://103.108.146.90:5000/sendemail', {
+    fetch('https://api-jobs.coredevs.ltd/sendemail', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
