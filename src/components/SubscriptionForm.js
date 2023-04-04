@@ -4,9 +4,9 @@ import hitToast from "../helpers/hitToast";
 export default function SubscriptionForm() {
 
 //states to store email and alert 
-  let [email, setEmail] = useState("");
-  let [alertClass, setAlertClass] = useState("");
-  var parentComp = useRef();
+  const [email, setEmail] = useState("");
+  const [alertClass, setAlertClass] = useState("");
+  let parentComp = useRef();
 
 
 // Regular expression to check if the input email is valid or not
@@ -21,16 +21,16 @@ export default function SubscriptionForm() {
 
 
 
-
-
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
+
+
     if (!validate(email)) {
-      setAlertClass("alert-validate");
-      return;
+      return setAlertClass("alert-validate");
+    }
+    else{
+    setAlertClass("");
     }
 
     fetch("https://api-jobs.coredevs.ltd/sendemail", {
@@ -55,12 +55,12 @@ export default function SubscriptionForm() {
 
   return (
     <form
-      className="w-full flex-w flex-c-m validate-form"
+      className="w-full flex-w flex-c-m validate-form validate-input"
       onSubmit={handleSubmit}
     >
       <div
         ref={parentComp}
-        className={"wrap-input100 validate-input where1 " + alertClass}
+        className={"wrap-input100  where1 " + alertClass}
         data-validate="Valid email is required: user@email.domain"
       >
         <input
