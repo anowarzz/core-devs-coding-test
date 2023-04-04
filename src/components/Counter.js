@@ -19,8 +19,7 @@ export default function Counter() {
 
   // useEffect hook to run the code once when the component mounts every time
   useEffect(() => {
-
-
+    
  // Set Interval function to run the clock in every one second 
     let clockInterval = setInterval(() => {
  
