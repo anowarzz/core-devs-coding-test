@@ -2,14 +2,12 @@ import { useState, useRef } from "react";
 import hitToast from "../helpers/hitToast";
 
 export default function SubscriptionForm() {
-
-//states to store email and alert 
+  //states to store email and alert
   const [email, setEmail] = useState("");
   const [alertClass, setAlertClass] = useState("");
   let parentComp = useRef();
 
-
-// Regular expression to check if the input email is valid or not
+  // Regular expression to check if the input email is valid or not
   const validate = (email) => {
     if (email.trim() === "") {
       return false;
@@ -18,22 +16,20 @@ export default function SubscriptionForm() {
     return validationRegex.test(email);
   };
 
-
-
-
+  // Sending the input email address to server with a POST request by handleSubmit function
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
-
+    // Validating the input email
     if (!validate(email)) {
       return setAlertClass("alert-validate");
-    }
-    else{
-    setAlertClass("");
+    } else {
+      setAlertClass("");
     }
 
-    fetch("https://api-jobs.coredevs.ltd/sendemail", {
+    //Sending POST request to the server and sending user email
+    fetch("https://103.108.146.90:5000/sendEmail", {
+      mode: "no-cors",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,16 +38,21 @@ export default function SubscriptionForm() {
     })
       .then((res) => res.text())
       .then((data) => JSON.parse(`${data}`))
-      .then((data) =>
-        hitToast(data.message, data.success ? "success" : "error")
-      )
-      .catch(() =>
-        hitToast("Something went wrong. Please try again.", "error")
-      );
+      .then((data) => {
+        console.log(data);
+        console.log("data");
+
+        // hitToast(data.message, data.success ? "success" : "error")
+      })
+      .catch((err) => {
+        console.log("error");
+        console.error(err);
+
+        hitToast("error", "Something went wrong. Please try again.");
+      });
 
     setAlertClass("");
   };
-
 
   return (
     <form
