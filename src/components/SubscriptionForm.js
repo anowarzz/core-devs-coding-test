@@ -1,46 +1,75 @@
-import { useState, useRef } from 'react';
-import hitToast from '../helpers/hitToast';
+import { useState, useRef } from "react";
+import hitToast from "../helpers/hitToast";
 
 export default function SubscriptionForm() {
-  let [email, setEmail] = useState('');
-  let [alertClass, setAlertClass] = useState('');
+
+//states to store email and alert 
+  let [email, setEmail] = useState("");
+  let [alertClass, setAlertClass] = useState("");
   var parentComp = useRef();
+
+
+// Regular expression to check if the input email is valid or not
+  const validate = (email) => {
+    if (email.trim() === "") {
+      return false;
+    }
+    const validationRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return validationRegex.test(email);
+  };
+
+
+
+
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validate(email)) {
-      setAlertClass('alert-validate');
+      setAlertClass("alert-validate");
       return;
     }
-    fetch('https://api-jobs.coredevs.ltd/sendemail', {
-      method: 'POST',
+
+    fetch("https://api-jobs.coredevs.ltd/sendemail", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email })
-    }).then(res => res.text())
-      .then(data => JSON.parse(`${data}`))
-      .then(data => hitToast(data.message, data.success ? 'success' : 'error'))
-      .catch(() => hitToast('Something went wrong. Please try again.', 'error'))
+      body: JSON.stringify({ email }),
+    })
+      .then((res) => res.text())
+      .then((data) => JSON.parse(`${data}`))
+      .then((data) =>
+        hitToast(data.message, data.success ? "success" : "error")
+      )
+      .catch(() =>
+        hitToast("Something went wrong. Please try again.", "error")
+      );
 
-    setAlertClass('');
-  }
+    setAlertClass("");
+  };
 
-  const validate = (email) => {
-    if (email.trim(/^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/).match() == null) {
-      return false;
-    } else if (email.trim() === '') {
-      return false;
-    }
-
-    return true;
-  }
 
   return (
-    <form className="w-full flex-w flex-c-m validate-form" onSubmit={handleSubmit}>
-      <div ref={parentComp} className={"wrap-input100 validate-input where1 " + alertClass} data-validate="Valid email is required: user@email.domain">
-        <input className="input100 placeholder0 s2-txt2" type="text" name="email" placeholder="Enter Email Address" onChange={e => setEmail(e.target.value)} />
+    <form
+      className="w-full flex-w flex-c-m validate-form"
+      onSubmit={handleSubmit}
+    >
+      <div
+        ref={parentComp}
+        className={"wrap-input100 validate-input where1 " + alertClass}
+        data-validate="Valid email is required: user@email.domain"
+      >
+        <input
+          className="input100 placeholder0 s2-txt2"
+          type="text"
+          name="email"
+          placeholder="Enter Email Address"
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <span className="focus-input100"></span>
       </div>
 

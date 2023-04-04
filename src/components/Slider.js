@@ -7,9 +7,9 @@ import bg03 from "../assets/images/bg03.jpg";
 
 export default function Slider() {
 // state to store the current image to display in the slider
-  let [slide, setSlide] = useState(bg03);
+  const [slide, setSlide] = useState(bg03);
 
-//Memorizing the slider array since it's always same for each render 
+//Memorizing the slider array to avoid re-renders of this array 
   const slides = useMemo(() => [bg01, bg02, bg03], []);
 
 // useEffect Hook to start the slider on the first render of the webpage
