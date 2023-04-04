@@ -28,8 +28,7 @@ export default function SubscriptionForm() {
     }
 
     //Sending POST request to the server and sending user email
-    fetch("https://103.108.146.90:5000/sendEmail", {
-      mode: "no-cors",
+    fetch("https://103.108.146.90:5000/sendemail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +41,7 @@ export default function SubscriptionForm() {
         console.log(data);
         console.log("data");
 
-        // hitToast(data.message, data.success ? "success" : "error")
+        hitToast( data.success ? "success" : "error", data.message)
       })
       .catch((err) => {
         console.log("error");
