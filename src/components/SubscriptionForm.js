@@ -38,15 +38,10 @@ export default function SubscriptionForm() {
       .then((res) => res.text())
       .then((data) => JSON.parse(`${data}`))
       .then((data) => {
-        console.log(data);
-        console.log("data");
-
-        hitToast( data.success ? "success" : "error", data.message)
+        hitToast(data?.success ? "success" : "error", data?.message);
       })
       .catch((err) => {
-        console.log("error");
-        console.error(err);
-
+        console.err(err);
         hitToast("error", "Something went wrong. Please try again.");
       });
 
